@@ -28,20 +28,23 @@ jobs:
     - name: Build and push mongodb Docker image
       run: |
         SHA=$(git rev-parse HEAD)
-        docker build ./bookit-mongodb --file Dockerfile.bookit-mongodb --tag zettour/bookit-mongodb:$SHA
+        docker build ./zettour/bookit-mongo --file Dockerfile.zettour/bookit-mongo --tag zettour/bookit-mongo:$SHA
         docker push zettour/bookit-mongodb:$SHA
         
     - name: Build and push backend Docker image
       run: |
-        docker build ./zettour/bookit-backend --file Dockerfile.bookit-backend --tag zettour/bookit-backend:$(date +%s)
-        docker push zettour/bookit-backend:$(date +%s)
+        SHA=$(git rev-parse HEAD)
+        docker build ./zettour/bookit-backend --file Dockerfile.zettour/bookit-backend --tag zettour/bookit-backend:$SHA
+        docker push zettour/bookit-backend:$SHA
 
     - name: Build and push client_reactjs Docker image
       run: |
-        docker build ./zettour/bookit-client_reactjs --file Dockerfile.bookit-client_reactjs --tag zettour/bookit-client_reactjs:$(date +%s)
-        docker push zettour/bookit-client_reactjs:$(date +%s)
+        SHA=$(git rev-parse HEAD)
+        docker build ./zettour/bookit-client_reactjs --file Dockerfile.zettour/bookit-client_reactjs --tag zettour/bookit-client_reactjs:$SHA
+        docker push zettour/bookit-client_reactjs:$SHA
 
     - name: Build and push nginx Docker image
       run: |
-        docker build ./zettour/bookit-nginx --file Dockerfile.bookit-nginx --tag zettour/bookit-nginx:$(date +%s)
-        docker push zettour/bookit-nginx:$(date +%s)
+        SHA=$(git rev-parse HEAD)
+        docker build ./zettour/bookit-nginx --file Dockerfile.zettour/bookit-nginx --tag zettour/bookit-nginx:$SHA
+        docker push zettour/bookit-nginx:$SHA
