@@ -1,0 +1,30 @@
+.history-container{
+    height: 100vh;
+    background-color: rgb(78, 78, 78);
+    color: white;   
+    align-items: center;
+}
+
+.history-container h1{
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-top: 1em;
+    font-size: 3em;
+    font-weight: 700;
+}
+
+.historycontainer{
+    width: 82%;
+    margin: 0 auto;
+    border-radius: 1em;
+    margin-top: 1em;
+    padding: 1em;
+    padding-top:2em;
+    border: 1px solid white;
+}
+
+.history-img{
+    width: 100%; 
+    margin: 0 auto;
+    margin-top: 3em;
+}
