@@ -27,8 +27,9 @@ jobs:
 
     - name: Build and push mongodb Docker image
       run: |
-        docker build ./zettour/bookit-mongodb --file Dockerfile.bookit-mongodb --tag zettour/bookit-mongodb:$(date +%s)
-        docker push zettour/bookit-mongodb:$(date +%s)
+        SHA=$(git rev-parse HEAD)
+        docker build ./bookit-mongodb --file Dockerfile.bookit-mongodb --tag zettour/bookit-mongodb:$SHA
+        docker push zettour/bookit-mongodb:$SHA
         
     - name: Build and push backend Docker image
       run: |
