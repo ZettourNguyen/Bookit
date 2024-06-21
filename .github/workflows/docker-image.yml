@@ -75,12 +75,12 @@ jobs:
       - name: Run dockercompose backend
         run:
           cd bookit-backend
-          docker-compose -f docker-compose.yml up -d
+          docker-compose up -d
 
       - name: Run dockercompose client
         run:
           cd bookit-client_reactjs
-          docker-compose -f docker-compose.yml up -d
+          docker-compose up -d
 
       - name: Docker down all
         run:
