@@ -36,14 +36,14 @@ jobs:
     #     docker build ./backend --file Dockerfile.backend --tag zettour/bookit-backend:$SHA
     #     docker push zettour/bookit-backend:$SHA
 
-    - name: Build and push Docker images
-      run: |
-        docker-compose -f docker-compose.yml build
-        docker-compose -f docker-compose.yml up -d
+    # - name: Build and push Docker images
+    #   run: |
+    #     docker-compose -f docker-compose.yml build
+    #     docker-compose -f docker-compose.yml up -d
 
-    - name: Teardown
-      run: |
-        docker-compose down
+    # - name: Teardown
+    #   run: |
+    #     docker-compose down
 
   # deploy test
   deploy:
@@ -58,10 +58,24 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Pull Docker image
-        run: docker pull my-app
+        run: 
+          docker pull zettour/bookit-nginx
+          docker pull zettour/bookit-client_reactjs
+          docker pull zettour/bookit-backend
+          docker pull zettour/bookit-mongo
 
+      - name: Run dockercompose backend
+        run:
+          cd backend
+          docker-compose -f docker-compose.yml up -d
+      - name: Run dockercompose client
+        run:
+          cd client_reactjs
+          docker-compose -f docker-compose.yml up -d
+
+      
       - name: Deploy to GitHub Pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          docker run --rm -v $(pwd)/_site:/app/_site my-app npm run deploy
+          docker run --rm -v $(pwd)/_site:/app/_site bookit npm run deploy
