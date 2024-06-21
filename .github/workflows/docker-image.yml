@@ -26,12 +26,12 @@ jobs:
       id: buildx
 
     - name: Build and Push Docker Image (Backend)
-        uses: docker/build-push-action@v2
-        with:
-          context: ./backend
-          file: ./backend/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend
+      uses: docker/build-push-action@v2
+      with:
+        context: ./backend
+        file: ./backend/Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend
 
     - name: Build and Push Docker Image (Client ReactJS)
       uses: docker/build-push-action@v2
