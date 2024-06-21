@@ -15,7 +15,7 @@ const mongoURI = "mongodb://mongodb:27017/bookit";
 // "mongodb://mongo:27017/";
 
 // Connect to local MongoDB
-mongoose.connect(mongoURI, {
+mongoose.connect(mongoURI, { 
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
