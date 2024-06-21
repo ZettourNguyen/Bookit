@@ -9,7 +9,6 @@
     "@mui/icons-material": "^5.14.11",
     "@mui/material": "^5.14.11",
     "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.5.1",
     "axios-hooks": "^5.0.1",
@@ -42,11 +41,6 @@
       "react-app/jest"
     ]
   },
-  "jest": {
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    }
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -60,9 +54,5 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.24.7",
-    "@babel/preset-env": "^7.24.7",
-    "@babel/preset-react": "^7.24.7",
-    "babel-jest": "^29.7.0"
   }
 }
