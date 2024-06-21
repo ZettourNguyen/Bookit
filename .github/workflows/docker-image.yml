@@ -43,7 +43,7 @@ jobs:
 
     - name: Run tests
       run: |
-        docker-compose exec client_reactjs npm test
+        docker-compose run client_reactjs npm test
 
     - name: Teardown
       run: |
