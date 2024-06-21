@@ -24,18 +24,6 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
-    - name: Build and push MongoDB Docker image
-      run: |
-        SHA=$(git rev-parse HEAD)
-        docker build . --file Dockerfile.mongo --tag zettour/bookit-mongo:$SHA
-        docker push zettour/bookit-mongo:$SHA
-
-    - name: Build and push Nginx Docker image
-      run: |
-        SHA=$(git rev-parse HEAD)
-        docker build . --file Dockerfile.nginx --tag zettour/bookit-nginx:$SHA
-        docker push zettour/bookit-nginx:$SHA
-
     - name: Build and push client_reactjs Docker image
       run: |
         SHA=$(git rev-parse HEAD)
