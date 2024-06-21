@@ -13,8 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v1
+    - uses: actions/checkout@v1
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
@@ -25,26 +24,26 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
-
-        
-    - name: Build and push backend Docker image
+    - name: Build and push MongoDB Docker image
       run: |
         SHA=$(git rev-parse HEAD)
-        docker build ./zettour/bookit-backend --file Dockerfile.zettour/bookit-backend --tag zettour/bookit-backend:$SHA
-        docker push zettour/bookit-backend:$SHA
+        docker build . --file Dockerfile.mongo --tag zettour/bookit-mongo:$SHA
+        docker push zettour/bookit-mongo:$SHA
+
+    - name: Build and push Nginx Docker image
+      run: |
+        SHA=$(git rev-parse HEAD)
+        docker build . --file Dockerfile.nginx --tag zettour/bookit-nginx:$SHA
+        docker push zettour/bookit-nginx:$SHA
 
     - name: Build and push client_reactjs Docker image
       run: |
         SHA=$(git rev-parse HEAD)
-        docker build ./zettour/bookit-client_reactjs --file Dockerfile.zettour/bookit-client_reactjs --tag zettour/bookit-client_reactjs:$SHA
+        docker build . --file Dockerfile.client_reactjs --tag zettour/bookit-client_reactjs:$SHA
         docker push zettour/bookit-client_reactjs:$SHA
-    - name: Build and push mongodb Docker image
+
+    - name: Build and push backend Docker image
       run: |
         SHA=$(git rev-parse HEAD)
-        docker build ./zettour/bookit-mongo --file Dockerfile.zettour/bookit-mongo --tag zettour/bookit-mongo:$SHA
-        docker push zettour/bookit-mongodb:$SHA
-    - name: Build and push nginx Docker image
-      run: |
-        SHA=$(git rev-parse HEAD)
-        docker build ./zettour/bookit-nginx --file Dockerfile.zettour/bookit-nginx --tag zettour/bookit-nginx:$SHA
-        docker push zettour/bookit-nginx:$SHA
+        docker build ./backend --file Dockerfile.backend --tag zettour/bookit-backend:$SHA
+        docker push zettour/bookit-backend:$SHA
