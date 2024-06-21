@@ -7,25 +7,21 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
-
-    - name: Setup Docker Buildx
-      uses: docker/setup-buildx-action@v1
-      id: buildx
-
-    
 
     - name: Build and Push Docker Image (Client ReactJS)
       uses: docker/build-push-action@v2
@@ -33,17 +29,18 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/client_reactjs
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/client_reactjs:latest
+
     - name: Build and Push Docker Image (Backend)
       uses: docker/build-push-action@v2
       with:
         context: ./backend
         file: ./backend/Dockerfile
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
 
-    - name: Verify
-      run: echo ${{ steps.docker_build.outputs.digest }}
-    
+    - name: Verify Client ReactJS Digest
+      run: echo ${{ steps.build_and_push_client.outputs.digest }}
 
-
+    - name: Verify Backend Digest
+      run: echo ${{ steps.build_and_push_backend.outputs.digest }}
