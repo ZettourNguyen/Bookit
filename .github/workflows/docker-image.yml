@@ -17,73 +17,32 @@ jobs:
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
 
-    
+    - name: Setup Docker Buildx
+      uses: docker/setup-buildx-action@v1
+      id: buildx
 
-    # - name: Build and push client_reactjs Docker image
-    #   run: |
-    #     SHA=$(git rev-parse HEAD)
-    #     docker build . --file Dockerfile.client_reactjs --tag zettour/bookit-client_reactjs:$SHA
-    #     docker push zettour/bookit-client_reactjs:$SHA
-
-    # - name: Build and push backend Docker image
-    #   run: |
-    #     SHA=$(git rev-parse HEAD)
-    #     docker build ./backend --file Dockerfile.backend --tag zettour/bookit-backend:$SHA
-    #     docker push zettour/bookit-backend:$SHA
-
-    # - name: Build and push Docker images
-    #   run: |
-    #     docker-compose -f docker-compose.yml build
-    #     docker-compose -f docker-compose.yml up -d
-
-    # - name: Teardown
-    #   run: |
-    #     docker-compose down
-
-  # deploy test
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
+    - name: Build and Push Docker Image (Backend)
+        uses: docker/build-push-action@v2
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-          
-      - name: Pull Docker image nginx
-        run: 
-          docker image pull zettour/bookit-nginx:latest
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend
 
-      - name: Pull Docker image client_reactjs
-        run: 
-          docker image pull zettour/bookit-client_reactjs:latest
+    - name: Build and Push Docker Image (Client ReactJS)
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/client_reactjs
 
-      - name: Pull Docker image backend
-        run: 
-          docker image pull zettour/bookit-backend:latest
-
-      - name: Pull Docker image mongo
-        run: 
-          docker image pull zettour/bookit-mongo:latest
-
-      - name: Run dockercompose backend
-        run:
-          cd bookit-backend
-          docker-compose up -d
-
-      - name: Run dockercompose client
-        run:
-          cd bookit-client_reactjs
-          docker-compose up -d
-
-      - name: Docker down all
-        run:
-          docker-compose down
+    - name: Verify
+      run: echo ${{ steps.docker_build.outputs.digest }}
+    
 
 
