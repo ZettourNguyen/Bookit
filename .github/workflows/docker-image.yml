@@ -60,10 +60,10 @@ jobs:
           
       - name: Pull Docker image
         run: 
-          docker image pull zettour/bookit-nginx
-          docker image pull zettour/bookit-client_reactjs
-          docker image pull zettour/bookit-backend
-          docker image pull zettour/bookit-mongo
+          docker image pull zettour/bookit-nginx:latest
+          docker image pull zettour/bookit-client_reactjs:latest
+          docker image pull zettour/bookit-backend:latest
+          docker image pull zettour/bookit-mongo::latest
 
       - name: Run dockercompose backend
         run:
